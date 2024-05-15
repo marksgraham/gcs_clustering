@@ -8,7 +8,8 @@ from tslearn.datasets import CachedDatasets
 from tslearn.preprocessing import TimeSeriesResampler, TimeSeriesScalerMeanVariance
 
 filename = Path("/Users/mark/Downloads/inGCS_outlabel_2019_1k.csv")
-output_dir = Path("/Users/mark/Downloads/clustering_results/")
+output_dir = Path("/Users/mark/Downloads/clustering_results_change/")
+
 
 data = pd.read_csv(filename)
 
@@ -26,6 +27,9 @@ time_labels = [int(x.split(" ")[0]) for x in time_labels]
 
 # get into same format as tslearn, removing the outcome column
 X_train = np.array(data.values[:, :-1]).astype(dtype=np.float32)
+
+# uncomment to subtract the first time point from each row, to cluster based on change from baseline
+# X_train = X_train - X_train[:, 0][:, None]
 
 # for now, no scaling
 X_train_scaled = X_train
